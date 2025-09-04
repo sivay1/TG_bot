@@ -1,0 +1,19 @@
+{
+  "name": "tg-sol-bal",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/bot.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@solana/web3.js": "^1.98.4",
+    "axios": "^1.11.0",
+    "dotenv": "^17.2.2",
+    "node-telegram-bot-api": "^0.66.0"
+  }
+}
