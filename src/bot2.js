@@ -6,7 +6,7 @@ dotenv.config();
 
 const bot = new TelegramBot(process.env.BOT_API_KEY, { polling: true });
 
-let userMessages = {};
+let mainMessage = null;
 
 
 // Start command: Show inline button
@@ -20,7 +20,7 @@ bot.onText(/\/start/, async(msg) => {
     }
   });
 
-  userMessages[chatId] = {
+  mainMessage = {
   chatId : chatId,
   messageId : sent.message_id
 };
@@ -33,7 +33,7 @@ bot.on('callback_query', async (query) => {
   const chatId = query.message.chat.id;
   
 
-  if (query.data === 'fetch_balance' && userMessages[chatId]) {
+  if (query.data === 'fetch_balance' && mainMessage) {
     try {
       const { returnBalance, returnUsdc,  wallet2 } = await main();
 
@@ -41,21 +41,21 @@ bot.on('callback_query', async (query) => {
       const newText = `Balance for ${wallet2}:\n${returnBalance} SOL\n$${returnUsdc} USD\n\n⏰ Last updated: ${now}`;
 
       await bot.editMessageText(newText,{
-        chat_id: userMessages[chatId].chatId,
-        message_id: userMessages[chatId].messageId,
+        chat_id: mainMessage.chatId,
+        message_id: mainMessage.messageId,
         reply_markup: {
         inline_keyboard: [
           [{ text: "💰 Refresh Balance", callback_data: "fetch_balance" }]
         ]
       }
-    });
-
+    }  
+      );
       await bot.answerCallbackQuery(query.id);
     } catch (error) {
       const errorText = `❌ Error: ${error.message}\n⏰ ${new Date().toLocaleTimeString()}`;
       await bot.editMessageText(errorText, {
-        chat_id: userMessages[chatId].chatId,
-        message_id: userMessages[chatId].messageId
+        chat_id: mainMessage.chatId,
+        message_id: mainMessage.messageId
       });
 
 
@@ -63,6 +63,5 @@ bot.on('callback_query', async (query) => {
     }
   }
 });
-
 
 console.log('Bot is running...');

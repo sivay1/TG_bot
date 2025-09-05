@@ -17,6 +17,11 @@ async function main() {
     const balance = await connection.getBalance(wallet2);  
     let finalBalance = balance / LAMPORTS_PER_SOL
     const returnBalance = parseFloat(finalBalance.toFixed(2));
+    const accInfo = await connection.getAccountInfo(wallet2);
+
+    //const buffer = accInfo.data;
+    console.log(accInfo);
+
     //console.log("SOL balance: ", parseFloat(finalBalance.toFixed(2)));
     const usdcPrice = await fetchSolanaPrice();
     console.log(usdcPrice);
@@ -51,5 +56,6 @@ export async function fetchSolanaPrice() {
   
 }
 //main().then(console.log).catch(console.error);
+await main();
 
 export default main;
