@@ -11,4 +11,6 @@ TG_bot is a Telegram bot designed to fetch wallet balance of a solana wallet wit
 Paste in the correct wallet address to view its balance
 ## Installation
 
-1. Clone the repository: run npm start
+1. Clone the repository: 
+run : npm install
+then : run npm start
